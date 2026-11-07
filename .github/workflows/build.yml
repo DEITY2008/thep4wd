@@ -6,11 +6,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: unzip -q THEP_4WD_Project.zip
-      - name: Fix reader thread
-        run: |
-          F=THEP_4WD/app/app/src/main/java/com/thep/controller/MainActivity.kt
-          sed -i 's/^\(\s*\)readLoop(s.inputStream)/\1Thread { readLoop(s.inputStream) }.start()/' $F
-          grep -n "Thread { readLoop" $F
+      - name: Use new MainActivity
+        run: cp MainActivity.kt THEP_4WD/app/app/src/main/java/com/thep/controller/MainActivity.kt
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: 17 }
       - run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
